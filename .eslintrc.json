@@ -1,0 +1,31 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "boundaries"],
+  "settings": {
+    "boundaries/elements": [
+      { "type": "core", "pattern": "packages/media-core/**" },
+      { "type": "wrapper-react", "pattern": "packages/media-react/**" },
+      { "type": "wrapper-native", "pattern": "packages/media-native/**" },
+      { "type": "ui-react", "pattern": "packages/media-ui-react/**" },
+      { "type": "ui-native", "pattern": "packages/media-ui-native/**" },
+      { "type": "app", "pattern": "apps/**" }
+    ]
+  },
+  "rules": {
+    "boundaries/element-types": [
+      "error",
+      {
+        "default": "disallow",
+        "rules": [
+          { "from": "core", "allow": [] },
+          { "from": "wrapper-react", "allow": ["core"] },
+          { "from": "wrapper-native", "allow": ["core"] },
+          { "from": "ui-react", "allow": [] },
+          { "from": "ui-native", "allow": [] },
+          { "from": "app", "allow": ["wrapper-react", "ui-react"] }
+        ]
+      }
+    ]
+  }
+}
