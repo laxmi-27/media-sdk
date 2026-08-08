@@ -63,7 +63,8 @@ pnpm --filter web-demo dev
 | `media-ui-react`: Grid, Lightbox (image), ReelSwiper | Full, headless, typechecked |
 | Lightbox video support | Wired in the demo app via `renderContent`'s `kind` branch, not a separate component — video-in-lightbox is just a `<video>` in the same slot |
 | `media-ui-native`: Grid | Full contract, `FlatList`-shaped hook (`onEndReached`/`onEndReachedThreshold`); the component itself renders `null` rather than importing `react-native` directly, so the package stays buildable/typecheckable without an RN toolchain in this environment — swap in `<FlatList {...flatListProps} />` in a real app |
-| `media-ui-native`: Lightbox, ReelSwiper | **Cut.** Typed hook signatures exist and are exported (so consuming code and the skill docs still typecheck against the intended contract), but the implementation throws with a pointer to the `media-ui-react` reference implementation. Porting is mechanical (Modal+PanResponder / FlatList `pagingEnabled`+`onViewableItemsChanged`) but time-boxed out. |
+| `media-ui-native`: Lightbox | Implemented (not cut). `useLightbox` mirrors the `media-ui-react` pattern -- open/close/navigation state plus a `getModalProps()` prop-getter shaped for RN's `<Modal>` (`visible`/`onRequestClose`, the Android-back-button equivalent of Escape). No DOM, no `react-native` import in the hook, same as the rest of this package. |
+| `media-ui-native`: ReelSwiper | **Cut.** Typed hook signature exists and is exported, but the implementation throws with a pointer to the `media-ui-react` reference implementation. Porting is mechanical (`FlatList` `pagingEnabled` + `onViewableItemsChanged`) but time-boxed out. |
 | Disk-persisted cache | **Cut.** In-memory TTL + de-dupe only. |
 | Tests | **Cut.** Given the time budget, prioritized a correctly-bounded architecture and a working app over test coverage. |
 
@@ -107,3 +108,4 @@ BEFORE SUBMITTING]
 - [ ] Deployed URL of the SDK docs (e.g. Typedoc output for `media-core`)
 - [ ] Deployed URL of the components docs (e.g. Storybook for `media-ui-react`)
 - [ ] Link(s) to the ChatGPT/Claude discussion chats used while building
+
